@@ -14,7 +14,8 @@ if($id_new) $new_info = mysqli_fetch_assoc(mysqli_query($con, "select * from new
                 <ul>
                 <?php
                 foreach ($news as $new) {
-                    echo"<li><a href='?new=" .$new[0] ."'>" .$new[1]."</a></li><hr>";
+                // <a href ="/admin"><img src="/images/icons/plus.png" alt="Добавить новость"></a>
+                    echo"<li><a href='?new=" .$new[0] ."'>" .$new[1]."</a><a href = 'deleteNew.php?new=" .$new[0] ."'><img src='/images/icons/trash.png' class='trash'></a></li><hr>";
                 }
                 ?>
                 <a href ="/admin"><img src="/images/icons/plus.png" alt="Добавить новость"></a>
@@ -22,8 +23,11 @@ if($id_new) $new_info = mysqli_fetch_assoc(mysqli_query($con, "select * from new
             </section>
             <section class="col_2">
             <h2><?= $id_new?"Редактирование  №$id_new":"Создание новости";?></h2>
-            <form action='<?= $id_new?"/update":"/create";?>NewValid' method="post" enctype="multipart/form-data">
+            
+
+            <form action='<?= $id_new?"update":"create";?>NewValid.php' method="post" enctype="multipart/form-data">
             <?=$id_new?"<img src='/images/news/" . $new_info['image'] . "'alt='#'>":"";?> 
+            <?=$id_new ?"<input type='hidden' name='id' value='$id_new'>" : "";?>
                 <label for="newsCat">Категории:</label>  
                 <select id="newsCat" name="newsCat">  
             <?php  

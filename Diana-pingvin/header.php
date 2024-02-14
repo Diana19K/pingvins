@@ -1,4 +1,8 @@
-<?php $categories = mysqli_fetch_all(mysqli_query($con, "select * from categories"));?>
+<?php $categories = mysqli_fetch_all(mysqli_query($con, "select * from categories"));
+
+?>
+
+
 <!DOCTYPE html> 
     <html lang="en"> 
     <head> 
@@ -21,11 +25,11 @@
             
         <div class="vhod"> 
             
-            <a href="admin/index.php">Вход</a> 
+            <a href="/authorization.php">Вход</a>/<a href="/registration.php">Регистрация</a>/<a href="admin/">Админ панель</a>/ <a href="/indexe.php">Главная</a>
         </div> 
     </div> 
     <div class="text-name"> 
-        <h1 class="namePost1">Пингвины</h1> 
+        <h1 class="namePost1"><a href="indexe.php">Пингвины</a></h1> 
         <h3>Понедельник, Январь 1, 2018</h3> 
         <div class="pogoda"> 
              
@@ -35,10 +39,11 @@
 
     <main> 
         <div class="text-main"> 
-            <?php foreach ($categories as $category){ 
-                echo "<li><a href='#'>$category[1]</a></li>"; 
- 
-                } 
+            <?php 
+            foreach ($categories as $category) { 
+                $cat_id = $category[0]; 
+                echo "<li><a href = '/indexe.php?cat=$cat_id'>$category[1]</a></li>"; 
+            }
             ?> 
         </div> 
     </main>

@@ -1,34 +1,51 @@
-<?php      
-    include "connect.php"; // выражение include включает и выполняет указанный файл 
-    
+<?php 
+include "connect.php"; //выражение include включает и выполняет указанный файл 
+//фильтрация
+ 
+$query_get_category = "select * from categories"; 
+ 
+$categories = mysqli_fetch_all(mysqli_query($con, $query_get_category)); 
+ 
+include "header.php"; 
+ 
+$news = mysqli_query($con, "select * from news"); 
+ 
+$id_cat = isset($_GET['cat'])? $_GET['cat']:false; 
+ 
+$query_newcat = ""; 
+ 
+if($id_cat){ 
+    $query_newcat = "SELECT * FROM news WHERE  category_id = '$id_cat'"; 
+} else { 
+    $query_newcat = "SELECT * FROM `news`"; 
+} 
+ 
+$result = mysqli_query($con,$query_newcat); 
+ 
+?> 
+ 
 
-    // $query_get_category = ; 
-
-    // $categories = mysqli_fetch_all(mysqli_query($con, "select * from categories")); //получение результата запроса из переменной query_get_category 
-    //и преобразуем его в двумерный массив, где каждый элемент это массив с построчным получением кортежей из таблицы результата запроса 
-
-    $news = mysqli_query($con, "select * from news");
-    include "header.php";
-    ?> 
-
-    
-
-    <div id="main">
-    <div class="last-news">
-    <?php 
-        while($new = mysqli_fetch_assoc($news)){ 
+<div id="main">
+    <div class="last-news">       
+    <div class="cards"> 
+        <?php 
+        if(mysqli_num_rows($result)==0){ 
+            echo "нет новостей"; 
+        }else { 
+            while($new = mysqli_fetch_assoc($result)){ 
             echo "<div class='card'>"; 
-            $new_id=$new['news_id'];
-            echo "<img src='images/news/".$new['image']."'>";
-            echo "<h2 class='c_title'>" . $new['title'] . "</h2>"; 
-            echo"<a href='oneNew.php?new=$new_id'>" . $new['title'] . "</a>";
-            // echo "<p>" . $new['content'] . "</p>"; 
-            echo "</div>"; 
+            $new_id = $new['news_id']; 
+            $new_date = $new['publish_date']; 
+            echo "<img src='images/news/" . $new['image']. "'>"; 
+            echo "<a href = 'oneNew.php?new=$new_id'>". $new['title']."</a>"; 
+            echo  "</div>"; 
+            } 
         } 
-    ?> 
-</div>
+        ?> 
     </div>
-
-
-    </body> 
+    </div> 
+</div>          
+        
+ 
+</body> 
 </html>
