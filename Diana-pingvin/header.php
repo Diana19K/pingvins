@@ -20,16 +20,16 @@
         <h2>Разделы</h2> 
         <div class="searcch-block"> 
              
-        <input type="text" placeholder=" Поиск" class="poisk" > 
+        <input type="text" id="searchInput" placeholder="Поиск..."> 
+    <button type="button" onclick="searchNews()">Искать</button>  
         </div> 
             
         <div class="vhod"> 
-            
-            <a href="/authorization.php">Вход</a>/<a href="/registration.php">Регистрация</a>/<a href="admin/">Админ панель</a>/ <a href="/indexe.php">Главная</a>
+            <a href="/authorization.php">Вход</a>/<a href="/registration.php">Регистрация</a>/<a href="admin/">Админ панель</a>/ <a href="/index.php">Главная</a>
         </div> 
     </div> 
     <div class="text-name"> 
-        <h1 class="namePost1"><a href="indexe.php">Пингвины</a></h1> 
+        <h1 class="namePost1"><a href="index.php">Пингвины</a></h1> 
         <h3>Понедельник, Январь 1, 2018</h3> 
         <div class="pogoda"> 
              
@@ -42,7 +42,7 @@
             <?php 
             foreach ($categories as $category) { 
                 $cat_id = $category[0]; 
-                echo "<li><a href = '/indexe.php?cat=$cat_id'>$category[1]</a></li>"; 
+                echo "<li><a href = '/?cat=$category[0]'>$category[1]</a></li>"; 
             }
             ?> 
         </div> 
