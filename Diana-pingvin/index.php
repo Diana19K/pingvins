@@ -25,14 +25,21 @@ if ($sort) {
     $sort_order = ($sort == 'asc') ? 'ASC' : 'DESC'; 
     $query_newcat .= " ORDER BY publish_date $sort_order"; 
 } 
+$paginate_count = 3; // limit n
+$page = isset($_GET['page'])?$_GET['page']:1;//
+$offset = $page * $paginate_count - $paginate_count;
+
+$result = mysqli_query($con, $query_newcat ." LIMIT $paginate_count OFFSET $offset"); 
  
-$result = mysqli_query($con, $query_newcat); 
- 
- 
+$students = mysqli_query($con,  $query_newcat ." LIMIT $paginate_count OFFSET $offset"); 
+
+$count_news = mysqli_num_rows(mysqli_query($con,  $query_newcat)); //
+
 ?> 
  
  
-<form action = "" method="get"> 
+<form action = "" method="get">
+<input type="hidden" name="page" value="<?=$page?>">
 <label for="sort">Сортировать по дате:</label> 
     <select name="sort" id="sort"> 
         <option value="">Без сортировки</option> 
@@ -61,7 +68,28 @@ type="submit">Применить</button>
             ?> 
         </div> 
     </main1> 
-     
+    <nav aria-label="Page navigation example"> 
+  <ul class="pagination"> 
+    <li class="page-item"> 
+      <a class="page-link" href="#" aria-label="Previous"> 
+        <span aria-hidden="true">&laquo;</span> 
+      </a> 
+    </li> 
+    <?php 
+      for($i=1; $i <= ceil($count_news/$paginate_count ); $i++){?> 
+          <li class="page-item"><a class="page-link" href = "?page=<?=$i?><?=($sort)?'&sort=' .$sort:''?><?=($id_cat)?'&class=' .$id_cat:''?>"> 
+              <?=$i?> 
+          </a></li> 
+  
+<?php } ?> 
+   
+    <li class="page-item"> 
+      <a class="page-link" href="#" aria-label="Next"> 
+        <span aria-hidden="true">&raquo;</span> 
+      </a> 
+    </li> 
+  </ul> 
+</nav>
 </body> 
 </html> 
 <script> 
