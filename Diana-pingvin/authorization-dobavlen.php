@@ -1,5 +1,6 @@
 <?php
 include "connect.php";
+session_start();
 $login = htmlspecialchars(trim($_POST['email']),ENT_QUOTES); // Удаляет все лишнее и записываем значение в переменную //$login
 // $name = htmlspecialchars(trim($_POST['username']), ENT_QUOTES);
 $password = htmlspecialchars(trim($_POST['password']),ENT_QUOTES); 
@@ -15,6 +16,6 @@ else if(count($user1) == 1){
 	exit();
 }
 
-setcookie('user', $user1['username'], time() + 3600, "/");
+$_SESSION["user"] = $user1['user_id'];
 
 header('Location: page.php');

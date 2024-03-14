@@ -1,8 +1,7 @@
-<?php $categories = mysqli_fetch_all(mysqli_query($con, "select * from categories"));
-
-?>
-
-
+<?php $query_get_category = "select * from categories";  
+$categories = mysqli_fetch_all(mysqli_query($con, $query_get_category));  
+session_start(); 
+$username = isset($_SESSION["user"]) ? mysqli_fetch_assoc(mysqli_query($con, 'select username from users where user_id =' . $_SESSION["user"]))["username"] : false;?>
 <!DOCTYPE html> 
     <html lang="en"> 
     <head> 
@@ -28,7 +27,12 @@
         </div> 
             
         <div class="vhod"> 
-            <a href="/authorization.php">Вход</a>/<a href="/registration.php">Регистрация</a>/<a href="admin/">Админ панель</a>/ <a href="/index.php">Главная</a>
+            <?php if(!isset($_SESSION["user"])) {?>
+                <a href="authorization.php">Вход</a> / <a href="registration.php">Регистрация</a> / 
+           <?php } else{ ?>
+                <a href="signoun.php">Выход</a> /
+         <?php  } ?>
+            <a href="admin/">Админ панель</a>
         </div> 
     </div> 
     <div class="text-name"> 

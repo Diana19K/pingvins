@@ -1,6 +1,6 @@
 <?php 
 include "connect.php";
-
+session_start();
 $login = htmlspecialchars(trim($_POST['email']),ENT_QUOTES); // Удаляет все лишнее и записываем значение в переменную //$login
 $name = htmlspecialchars(trim($_POST['username']), ENT_QUOTES);
 $pass = htmlspecialchars(trim($_POST['password']),ENT_QUOTES); 
@@ -13,6 +13,9 @@ $user1 = mysqli_fetch_assoc($result1); // Конвертируем в масси
 if(!empty($user1)){
 	echo "Данный логин уже используется!";
 	exit();
+}else{
+	$_SESSION["user_id"]=mysqli_insert_id($con);
+	$insert = mysqli_query($con,"INSERT INTO `users` (`username`, `password`, `email`)VALUES('$name', '$pass','$login' )");
 }
-$insert = mysqli_query($con,"INSERT INTO `users` (`username`, `password`, `email`)VALUES('$name', '$pass','$login' )");
+
 header('Location: authorization.php');
